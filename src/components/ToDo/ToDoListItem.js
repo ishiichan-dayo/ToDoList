@@ -2,23 +2,22 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 class ToDoListItem extends Component {
-  render() {
-    const {
-      title,
-      description
-    } = this.props
+  constructor(props) {
+    super(props)
+  }
 
+  render() {
     return (
       <Box>
-        <Title>{title}</Title>
-        <Description>{description}</Description>
+        <Title>{this.props.title}</Title>
+        <Description>{this.props.description}</Description>
       </Box>
     )
   }
 }
 
 const Box = styled.div`
-  display: inline-block;
+  width: 100%;
   border: 1px solid #000;
   padding: 30px;
 `
