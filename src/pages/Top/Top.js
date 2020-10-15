@@ -7,12 +7,12 @@ class Top extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todoList: []
+      todoList: JSON.parse(localStorage.getItem("todoList")) || []
     }
   }
 
   // タスク追加の処理
-  addToDo = e => {
+  addToDo = (e) => {
     e.preventDefault();
 
     const titleElement = e.target.elements["title"];
@@ -24,11 +24,24 @@ class Top extends Component {
           id: this.state.todoList.length + 1,
           title: titleElement.value,
           description: descriptionElement.value
-        }),
+        })
       },
       () => {
+        localStorage.setItem("todoList", JSON.stringify(this.state.todoList))
         titleElement.value = "";
         descriptionElement.value = "";
+      }
+    )
+  }
+
+  // タスク削除の処理
+  removeToDo = (item) => {
+    this.setState(
+      {
+        todoList: this.state.todoList.filter(x => x !== item)
+      },
+      () => {
+        localStorage.setItem("todoList", JSON.stringify(this.state.todoList))
       }
     )
   }
@@ -37,6 +50,7 @@ class Top extends Component {
     return (
       <Container>
         <main>
+          <PageTitle>ToDoList</PageTitle>
           <FormArea
             onSubmit={this.addToDo}
           >
@@ -66,26 +80,16 @@ class Top extends Component {
             <ul>
               {
                 this.state.todoList.map(todo => (
-                  <li
-                    key={todo.id}
-                  >
+                  <li key={todo.id} >
                     <ToDoListItem
                       title={todo.title}
                       description={todo.description}
-                      onClick={() => {
-                        this.setState({
-                          todoList: this.state.todoList.filter(x => x !== todo)
-                        })
-                      }}
+                      onClick={() => this.removeToDo(todo)}
                     />
                   </li>
                 ),
                 this.state.todoList.sort(function(a, b) {
-                  if (a.id < b.id) {
-                    return 1;
-                  } else {
-                    return -1;
-                  }
+                  return a.id < b.id ? 1 : -1;
                 }))
               }
             </ul>
@@ -98,16 +102,23 @@ class Top extends Component {
 
 const Container = styled.div`
   width: 100%;
-  margin: 0 auto;
+  max-width: 120.0rem;
+  margin: 6.0rem auto;
 `
-
+const PageTitle = styled.h1`
+  text-align: center;
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin-bottom: 6.0rem;
+`
 const FormArea = styled.form`
-  width: 100%;
-  max-width: 60.0rem;
   border-bottom: 1px solid #ccc;
-  margin: 4.0rem auto;
+  margin-bottom: 4.0rem;
   padding-bottom: 4.0rem;
   ul {
+    width: 100%;
+    max-width: 60.0rem;
+    margin: 0 auto;
     li + li {
       margin-top: 2.0rem;
     }
@@ -123,17 +134,17 @@ const FormArea = styled.form`
     }
   }
 `
-
 const ToDoList = styled.div`
   width: 100%;
-  max-width: 120.0rem;
   margin: 0 auto;
   ul {
     display: flex;
-    margin: 0 -2.0rem;
+    flex-wrap: wrap;
+    margin: 0 -2.0rem -4.0rem;
     li {
       width: 33.333%;
       padding: 0 2.0rem;
+      margin-bottom: 4.0rem;
     }
   }
 `

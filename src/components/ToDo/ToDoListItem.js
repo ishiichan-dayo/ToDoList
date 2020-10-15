@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-class ToDoListItem extends Component {
-  render() {
+const ToDoListItem = (props) => {
     return (
       <Box>
         <OptionArea>
-          <button type="button">編集</button> ｜ <button {...this.props} type="button">削除</button>
+          {/* <button type="button">編集</button> */}
+           {/* ｜ */}
+          <button onClick={props.onClick} type="button">削除</button>
         </OptionArea>
-        <Title>{this.props.title}</Title>
-        <Description>{this.props.description}</Description>
+        <Title>{props.title}</Title>
+        <Description>{props.description}</Description>
       </Box>
     )
-  }
 }
 
 const Title = styled.div`
@@ -41,6 +41,7 @@ const Box = styled.div`
   background: #fff;
   padding: 8.0rem 3.0rem 3.0rem;
   position: relative;
+  box-shadow: 0 0 2.0rem rgba(0,0,0, 0.05);
   &:hover {
     ${OptionArea} {
       opacity: 1;
