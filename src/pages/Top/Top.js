@@ -84,7 +84,7 @@ class Top extends Component {
                     <ToDoListItem
                       title={todo.title}
                       description={todo.description}
-                      onClick={() => this.removeToDo(todo)}
+                      delete={() => this.removeToDo(todo)}
                     />
                   </li>
                 ),

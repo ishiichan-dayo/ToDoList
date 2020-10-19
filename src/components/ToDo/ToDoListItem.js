@@ -7,7 +7,7 @@ const ToDoListItem = (props) => {
         <OptionArea>
           {/* <button type="button">編集</button> */}
            {/* ｜ */}
-          <button onClick={props.onClick} type="button">削除</button>
+          <button onClick={props.delete} type="button">削除</button>
         </OptionArea>
         <Title>{props.title}</Title>
         <Description>{props.description}</Description>
